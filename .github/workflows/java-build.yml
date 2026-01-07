@@ -1,11 +1,10 @@
-name: Java Build & JavaDoc
+name: Central Java Build
 
 on:
   workflow_call:
     inputs:
       java-version:
-        required: false
-        default: '21'
+        required: true
         type: string
 
 jobs:
@@ -13,16 +12,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Set up Java
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
+          distribution: temurin
           java-version: ${{ inputs.java-version }}
-          distribution: 'temurin'
 
-      - name: Build
-        run: mvn clean install -DskipTests
-
-      - name: Generate JavaDoc
-        run: mvn javadoc:javadoc -Dmaven.javadoc.failOnError=false
+      - name: Build with Maven
+        run: mvn clean install
