@@ -1,25 +1,27 @@
-name: Deploy Release
-
-permissions:
-  contents: write
-  actions: write
+name: Central Maven Build & Deploy
 
 on:
   workflow_call:
     inputs:
       artifact_id:
-        description: "Artifact or tag to deploy"
         required: true
         type: string
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout selected ref
-        uses: actions/checkout@v4
 
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build
+        run: |
+          if [ "${{ inputs.artifact_id }}" = "all" ]; then
+            mvn clean install
+          else
+            mvn clean install -pl ${{ inputs.artifact_id }} -am
+          fi
 
       - name: Deploy
         run: |
-          echo "🚀 Deploying artifact: ${{ inputs.artifact_id }}"
+          echo "🚀 Deploying ${{ inputs.artifact_id }}"
