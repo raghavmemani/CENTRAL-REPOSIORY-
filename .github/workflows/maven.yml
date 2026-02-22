@@ -1,0 +1,28 @@
+name: Deploy Release
+permissions:
+  contents: write
+  actions: write
+
+on:
+  workflow_call:
+    inputs:
+      artifact_id:
+        description: "Select the release tag to deploy (auto-updated)"
+        required: true
+        type: string
+
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout selected tag
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.artfact_id }}
+
+      - name: Deploy
+        run: |
+          echo "🚀 Deploying release: ${{ github.event.inputs.release_tag }}"
