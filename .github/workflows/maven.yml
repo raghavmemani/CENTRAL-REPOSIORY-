@@ -12,16 +12,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Debug – print received input
+        run: |
+          echo "================ DEBUG INFO ================"
+          echo "👉 Received artifact_id input: '${{ inputs.artifact_id }}'"
+          echo "============================================"
 
       - name: Build
         run: |
           if [ "${{ inputs.artifact_id }}" = "all" ]; then
+            echo "🛠 Running command: mvn clean install"
             mvn clean install
           else
+            echo "🛠 Running command: mvn clean install -pl ${{ inputs.artifact_id }} -am"
             mvn clean install -pl ${{ inputs.artifact_id }} -am
           fi
 
       - name: Deploy
         run: |
-          echo "🚀 Deploying ${{ inputs.artifact_id }}"
+          echo "🚀 Deploying artifact: '${{ inputs.artifact_id }}'"
