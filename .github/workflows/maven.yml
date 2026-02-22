@@ -18,8 +18,7 @@ jobs:
     steps:
       - name: Checkout selected ref
         uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.artifact_id }}
+
 
       - name: Deploy
         run: |
