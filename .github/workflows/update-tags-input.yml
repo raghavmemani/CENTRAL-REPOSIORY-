@@ -79,13 +79,3 @@ jobs:
           echo "===== AFTER ====="
           cat .github/workflows/test-and-deploy.yml || true
 
-      # --------------------------
-      # Commit only if changes exist
-      # --------------------------
-      - name: Commit updated workflow
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "chore: auto-update artifact dropdown options"
-          file_pattern: |
-            .github/workflows/test-and-deploy.yml
-            artifact-list.txt

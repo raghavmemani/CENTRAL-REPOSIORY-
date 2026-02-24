@@ -23,13 +23,11 @@ jobs:
 
       - name: Build
         run: |
-          if [ "${{ inputs.artifact_id }}" = "all" ]; then
+          
             echo "🛠 Running command: mvn clean install"
             mvn clean install
-          else
-            echo "🛠 Running command: mvn clean install -pl ${{ inputs.artifact_id }} -am"
-            mvn clean install -pl ${{ inputs.artifact_id }} -am
-          fi
+         
+          
 
       - name: Deploy
         run: |
