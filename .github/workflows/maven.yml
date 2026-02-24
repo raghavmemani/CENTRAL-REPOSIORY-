@@ -12,27 +12,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up JDK with Maven cache
+      - name: Setup Java + Maven cache
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
+          distribution: temurin
           java-version: '17'
-          cache: maven   # 🔥 THIS is the magic
-
-      - name: Debug – print received input
-        run: |
-          echo "================ DEBUG INFO ================"
-          echo "👉 Received artifact_id input: '${{ inputs.artifact_id }}'"
-          echo "============================================"
+          cache: maven
 
       - name: Build
-        run: |
-          echo "🛠 Running command: mvn clean install -DskipTests"
-          mvn clean install -DskipTests
+        run: mvn -T 1C -DskipTests clean install
 
       - name: Deploy
         run: |
-          echo "🚀 Deploying artifact: '${{ inputs.artifact_id }}'"
+          echo "Deploying artifact: ${{ inputs.artifact_id }}"
