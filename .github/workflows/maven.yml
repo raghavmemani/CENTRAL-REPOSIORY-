@@ -15,6 +15,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set up JDK with Maven cache
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: maven   # 🔥 THIS is the magic
+
       - name: Debug – print received input
         run: |
           echo "================ DEBUG INFO ================"
@@ -23,11 +30,8 @@ jobs:
 
       - name: Build
         run: |
-          
-            echo "🛠 Running command: mvn clean install"
-            
-         
-          
+          echo "🛠 Running command: mvn clean install -DskipTests"
+          mvn clean install -DskipTests
 
       - name: Deploy
         run: |
